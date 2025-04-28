@@ -211,16 +211,17 @@
 
       try {
         const formData = new FormData(surveyForm);
-        const formObject = {};
-        formData.forEach((value, key) => formObject[key] = value);
+const formObject = {};
+formData.forEach((value, key) => formObject[key] = value);
 
-        const urlEncoded = new URLSearchParams(formObject);
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec';
+const urlEncoded = new URLSearchParams(formObject);
+const scriptUrl = 'https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec';
 
-        await fetch(scriptUrl + '?timestamp=' + new Date().getTime(), {
-          method: 'POST',
-          body: urlEncoded
-        });
+await fetch(scriptUrl + '?timestamp=' + new Date().getTime(), {
+  method: 'POST',
+  body: urlEncoded
+});
+
 
         successMessage.style.display = 'block';
         surveyForm.reset();
