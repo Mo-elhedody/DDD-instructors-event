@@ -22,11 +22,13 @@
     h2 {
       text-align: center;
       margin-bottom: 20px;
+      color: #0077b6;
     }
     label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
+      color: #333;
     }
     input[type="text"],
     input[type="number"],
@@ -38,9 +40,11 @@
       margin-top: 5px;
       border-radius: 5px;
       border: 1px solid #ccc;
+      font-size: 16px;
     }
     textarea {
       height: 100px;
+      resize: vertical;
     }
     button {
       margin-top: 20px;
@@ -52,27 +56,35 @@
       font-size: 16px;
       width: 100%;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
     button:hover {
       background-color: #005f8a;
     }
-    .success-message {
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    .message {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
       display: none;
+    }
+    .success {
       background-color: #d4edda;
       color: #155724;
-      padding: 15px;
-      border-radius: 5px;
-      margin-top: 20px;
-      text-align: center;
+      border: 1px solid #c3e6cb;
     }
-    .error-message {
-      display: none;
+    .error {
       background-color: #f8d7da;
       color: #721c24;
-      padding: 15px;
-      border-radius: 5px;
-      margin-top: 20px;
-      text-align: center;
+      border: 1px solid #f5c6cb;
+    }
+    .required:after {
+      content: " *";
+      color: red;
     }
   </style>
 </head>
@@ -82,19 +94,19 @@
   <h2>Instructor Meet Feedback</h2>
   <form id="surveyForm">
 
-    <label>How did you hear about this event?</label>
+    <label class="required">How did you hear about this event?</label>
     <input type="text" name="hear_about" required>
 
-    <label>On average, how many classes/courses do you teach monthly?</label>
-    <input type="number" name="monthly_classes" required>
+    <label class="required">On average, how many classes/courses do you teach monthly?</label>
+    <input type="number" name="monthly_classes" required min="0">
 
-    <label>Please list your preferred certification agencies (in order of activity):</label>
+    <label class="required">Please list your preferred certification agencies (in order of activity):</label>
     <input type="text" name="certification_agencies" required>
 
-    <label>Where do you typically conduct your classes/courses?</label>
+    <label class="required">Where do you typically conduct your classes/courses?</label>
     <input type="text" name="conduct_location" required>
 
-    <label>How familiar were you with our Membership Program before today's event?</label>
+    <label class="required">How familiar were you with our Membership Program before today's event?</label>
     <select name="membership_familiarity" required>
       <option value="">Select</option>
       <option>Never heard about it</option>
@@ -103,7 +115,7 @@
       <option>Very familiar</option>
     </select>
 
-    <label>How clear was the presentation about Membership Program benefits?</label>
+    <label class="required">How clear was the presentation about Membership Program benefits?</label>
     <select name="presentation_clarity" required>
       <option value="">Select</option>
       <option>Very clear</option>
@@ -113,7 +125,7 @@
       <option>Very unclear</option>
     </select>
 
-    <label>Do you feel the prices and commission we offer are reasonable?</label>
+    <label class="required">Do you feel the prices and commission we offer are reasonable?</label>
     <select name="price_reasonability" required>
       <option value="">Select</option>
       <option>Very reasonable</option>
@@ -123,7 +135,7 @@
       <option>Very unreasonable</option>
     </select>
 
-    <label>Would you be interested in partnering with us?</label>
+    <label class="required">Would you be interested in partnering with us?</label>
     <select name="interest_in_partnership" required>
       <option value="">Select</option>
       <option>Yes</option>
@@ -131,7 +143,7 @@
       <option>Maybe</option>
     </select>
 
-    <label>Overall, how beneficial was today's event?</label>
+    <label class="required">Overall, how beneficial was today's event?</label>
     <select name="event_benefit" required>
       <option value="">Select</option>
       <option>1 - Not beneficial at all</option>
@@ -144,25 +156,25 @@
     <label>Any suggestions, opinions, or feedback you'd like to share?</label>
     <textarea name="additional_feedback"></textarea>
 
-    <label>Would you like us to contact you for a follow-up?</label>
-    <select name="followup_contact" required>
+    <label class="required">Would you like us to contact you for a follow-up?</label>
+    <select name="followup_contact" required id="followupSelect">
       <option value="">Select</option>
       <option>Yes</option>
       <option>No</option>
     </select>
 
     <div id="contactInfo" style="display:none;">
-      <label>If yes, please provide your email or phone:</label>
-      <input type="text" name="contact_info">
+      <label class="required">If yes, please provide your email or phone:</label>
+      <input type="text" name="contact_info" id="contactInput">
     </div>
 
-    <button type="submit">Submit Feedback</button>
+    <button type="submit" id="submitBtn">Submit Feedback</button>
 
-    <div id="successMessage" class="success-message">
+    <div id="successMessage" class="message success">
       Thank you for your feedback! Your response has been recorded.
     </div>
 
-    <div id="errorMessage" class="error-message">
+    <div id="errorMessage" class="message error">
       There was an error submitting your form. Please try again later.
     </div>
 
@@ -170,104 +182,71 @@
 </div>
 
 <script>
-  const surveyForm = document.getElementById('surveyForm');
-  const successMessage = document.getElementById('successMessage');
-  const errorMessage = document.getElementById('errorMessage');
+  document.addEventListener('DOMContentLoaded', function() {
+    const surveyForm = document.getElementById('surveyForm');
+    const followupSelect = document.getElementById('followupSelect');
+    const contactInfo = document.getElementById('contactInfo');
+    const contactInput = document.getElementById('contactInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
 
-  // Show/hide contact info field based on follow-up selection
-  const followupSelect = surveyForm.querySelector('select[name="followup_contact"]');
-  followupSelect.addEventListener('change', function() {
-    const contactInfoDiv = document.getElementById('contactInfo');
-    if (this.value === 'Yes') {
-      contactInfoDiv.style.display = 'block';
-    } else {
-      contactInfoDiv.style.display = 'none';
-    }
-  });
-
-  surveyForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    // Hide any previous messages
-    successMessage.style.display = 'none';
-    errorMessage.style.display = 'none';
-    
-    // Disable submit button to prevent multiple submissions
-    const submitButton = surveyForm.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-    submitButton.textContent = 'Submitting...';
-
-    // Prepare form data
-    const formData = new FormData(surveyForm);
-    const formObject = {};
-    formData.forEach((value, key) => {
-      formObject[key] = value;
+    // Toggle contact info field
+    followupSelect.addEventListener('change', function() {
+      if (this.value === 'Yes') {
+        contactInfo.style.display = 'block';
+        contactInput.required = true;
+      } else {
+        contactInfo.style.display = 'none';
+        contactInput.required = false;
+      }
     });
 
-    try {
-      // Add timestamp to URL to prevent caching issues
-      const scriptUrl = 'https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec?timestamp=' + new Date().getTime();
+    // Form submission
+    surveyForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
       
-      // First try with JSON (works if CORS is properly configured)
+      // Reset messages
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      
+      // Disable submit button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
       try {
-        const response = await fetch(scriptUrl, {
+        // Prepare form data
+        const formData = new FormData(surveyForm);
+        const formObject = {};
+        formData.forEach((value, key) => formObject[key] = value);
+
+        // Submit to Google Apps Script
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec';
+        const response = await fetch(scriptUrl + '?timestamp=' + new Date().getTime(), {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formObject)
         });
 
-        if (response.ok) {
-          const result = await response.json();
-          if (result.result === 'success') {
-            showSuccess();
-            return;
-          }
+        const result = await response.json();
+        
+        if (result.result === 'success') {
+          successMessage.style.display = 'block';
+          surveyForm.reset();
+          contactInfo.style.display = 'none';
+        } else {
+          throw new Error(result.message || 'Unknown error');
         }
-      } catch (jsonError) {
-        console.log('JSON submission failed, trying URL encoded');
+      } catch (error) {
+        console.error('Submission error:', error);
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Error: ' + error.message;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Feedback';
       }
-
-      // If JSON fails, try URL encoded format
-      const urlEncodedData = new URLSearchParams(formData).toString();
-      const response = await fetch(scriptUrl, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: urlEncodedData
-      });
-
-      // Even if we can't read the response (CORS), assume success if no error
-      showSuccess();
-
-    } catch (error) {
-      console.error('Error:', error);
-      showError();
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Submit Feedback';
-    }
+    });
   });
-
-  function showSuccess() {
-    successMessage.style.display = 'block';
-    errorMessage.style.display = 'none';
-    surveyForm.reset();
-    document.getElementById('contactInfo').style.display = 'none';
-    
-    // Scroll to success message
-    successMessage.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function showError() {
-    successMessage.style.display = 'none';
-    errorMessage.style.display = 'block';
-    
-    // Scroll to error message
-    errorMessage.scrollIntoView({ behavior: 'smooth' });
-  }
 </script>
 
 </body>
