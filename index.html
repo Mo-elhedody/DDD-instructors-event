@@ -10,8 +10,17 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: url('https://cdn.prod.website-files.com/669a3c4d5c931ae19ea9256e/67b2c338e70b867a63e76e83_nitrox-courses.webp') no-repeat center center fixed;
+      background: url('https://cdn.prod.website-files.com/669a3c4d5c931ae19ea9256e83_nitrox-courses.webp') no-repeat center center fixed;
       background-size: cover;
+      position: relative;
+    }
+    .background-logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 220px;
+      opacity: 0.85;
+      z-index: 1;
     }
     .form-container {
       background: rgba(255, 255, 255, 0.75);
@@ -20,25 +29,27 @@
       border-radius: 20px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       max-width: 900px;
-      margin: 120px auto;
+      margin: 140px auto 60px;
       animation: fadeIn 1s ease;
       display: flex;
       align-items: flex-start;
       gap: 30px;
+      z-index: 5;
+      position: relative;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .logo-side {
-      flex: 0 0 180px;
+      flex: 0 0 140px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       padding-top: 10px;
     }
     .logo-side img {
-      width: 120px;
+      width: 100px;
       height: auto;
     }
     .form-side {
@@ -106,11 +117,14 @@
     @media (max-width: 768px) {
       .form-container {
         flex-direction: column;
-        margin: 50px 20px;
+        margin: 60px 20px;
         text-align: center;
       }
       .logo-side img {
-        width: 100px;
+        width: 80px;
+      }
+      .background-logo {
+        width: 140px;
       }
     }
     /* Popup */
@@ -164,11 +178,16 @@
     }
   </style>
 </head>
+
 <body>
 
+<!-- Background logo top left -->
+<img src="59a19db5-ddd_englishlogo.png" class="background-logo" alt="Deep Dive Dubai Background Logo">
+
+<!-- Form -->
 <div class="form-container">
   <div class="logo-side">
-    <img src="59a19db5-ddd_englishlogo.png" alt="Deep Dive Dubai Logo">
+    <img src="59a19db5-ddd_englishlogo.png" alt="Deep Dive Dubai Form Logo">
   </div>
   <div class="form-side">
     <h2>Instructor Meet Feedback</h2>
@@ -305,8 +324,8 @@ document.addEventListener('DOMContentLoaded', function() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': 'YOUR_API_KEY',
-          'Authorization': 'Bearer YOUR_API_KEY',
+          'apikey': 'YOUR_SUPABASE_API_KEY',
+          'Authorization': 'Bearer YOUR_SUPABASE_API_KEY',
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify(payload)
