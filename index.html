@@ -81,27 +81,58 @@
       background: linear-gradient(135deg, #005f8a, #0077b6);
       transform: scale(1.02);
     }
-    .message {
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
       display: none;
-      font-size: 18px;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
     }
-    .success {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
+    .popup-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      animation: popFade 0.5s ease;
+      max-width: 90%;
     }
-    .error {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
+    @keyframes popFade {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
     }
-    .required:after {
-      content: " *";
-      color: red;
+    .popup-content h3 {
+      color: #28a745;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .popup-content .checkmark {
+      font-size: 60px;
+      color: #28a745;
+      margin-bottom: 20px;
+      animation: bounce 0.6s ease;
+    }
+    @keyframes bounce {
+      0% { transform: scale(0); }
+      60% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .popup-content button {
+      margin-top: 20px;
+      background: #0077b6;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .popup-content button:hover {
+      background: #005f8a;
     }
   </style>
 </head>
@@ -186,27 +217,31 @@
     </div>
 
     <button type="submit" id="submitBtn">Submit Feedback</button>
-
-    <div id="successMessage" class="message success">
-      ✅ Thank you! Your feedback was submitted successfully!
-    </div>
-
-    <div id="errorMessage" class="message error">
-      ❌ Oops! Something went wrong. Please try again later.
-    </div>
-
   </form>
 </div>
 
+<!-- Popup -->
+<div id="thankYouPopup" class="popup">
+  <div class="popup-content">
+    <div class="checkmark">✅</div>
+    <h3>Thank you!</h3>
+    <p>Your feedback has been received.</p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+
 <script>
+  function closePopup() {
+    document.getElementById('thankYouPopup').style.display = 'none';
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     const surveyForm = document.getElementById('surveyForm');
     const followupSelect = document.getElementById('followupSelect');
     const contactInfo = document.getElementById('contactInfo');
     const contactInput = document.getElementById('contactInput');
     const submitBtn = document.getElementById('submitBtn');
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage = document.getElementById('errorMessage');
+    const popup = document.getElementById('thankYouPopup');
 
     followupSelect.addEventListener('change', function() {
       if (this.value === 'Yes') {
@@ -220,9 +255,6 @@
 
     surveyForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-
-      successMessage.style.display = 'none';
-      errorMessage.style.display = 'none';
       
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting...';
@@ -259,12 +291,12 @@
           body: JSON.stringify(payload)
         });
 
-        successMessage.style.display = 'block';
+        popup.style.display = 'flex';
         surveyForm.reset();
         contactInfo.style.display = 'none';
       } catch (error) {
         console.error('Submission error:', error);
-        errorMessage.style.display = 'block';
+        alert('Error submitting the form.');
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Feedback';
