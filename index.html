@@ -10,29 +10,25 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: url('https://cdn.prod.website-files.com/669a3c4d5c931ae19ea9256e83_nitrox-courses.webp') no-repeat center center fixed;
+      background: url('https://cdn.prod.website-files.com/669a3c4d5c931ae19ea9256e/67b2c338e70b867a63e76e83_nitrox-courses.webp') no-repeat center center fixed;
       background-size: cover;
-      position: relative;
     }
-    .background-logo {
+    .logo {
       position: absolute;
       top: 20px;
       left: 20px;
-      width: 220px;
-      opacity: 0.85;
-      z-index: 1;
+      width: 150px;
+      height: auto;
     }
     .form-container {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(10px);
+     background: rgba(255, 255, 255, 0.7);
+backdrop-filter: blur(10px);
       padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       max-width: 700px;
-      margin: 160px auto 60px;
+      margin: 100px auto;
       animation: fadeIn 1s ease;
-      z-index: 5;
-      position: relative;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -42,15 +38,14 @@
       text-align: center;
       margin-bottom: 30px;
       color: #0077b6;
-      font-weight: 700;
-      font-size: 30px;
+      font-weight: 600;
+      font-size: 28px;
     }
     label {
       display: block;
       margin-top: 15px;
       font-weight: 600;
       color: #333;
-      font-size: 16px;
     }
     input[type="text"],
     input[type="number"],
@@ -68,7 +63,7 @@
     select:hover,
     textarea:hover {
       border-color: #0077b6;
-      box-shadow: 0 0 8px #00b4d8;
+      box-shadow: 0 0 5px #00b4d8;
     }
     input:focus,
     select:focus,
@@ -84,7 +79,7 @@
       margin-top: 25px;
       background: linear-gradient(135deg, #0077b6, #0096c7);
       color: white;
-      padding: 14px 20px;
+      padding: 15px 20px;
       border: none;
       border-radius: 8px;
       font-size: 18px;
@@ -97,18 +92,12 @@
       background: linear-gradient(135deg, #005f8a, #0077b6);
       transform: scale(1.02);
     }
-    @media (max-width: 768px) {
-      .form-container {
-        margin: 60px 20px;
-      }
-      .background-logo {
-        width: 140px;
-      }
-    }
-    /* Popup */
     .popup {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(0,0,0,0.6);
       display: none;
       justify-content: center;
@@ -156,16 +145,16 @@
     }
   </style>
 </head>
-
 <body>
 
-<!-- Background Logo -->
-<img src="59a19db5-ddd_englishlogo.png" class="background-logo" alt="Deep Dive Dubai Background Logo">
+<img src="59a19db5-ddd_englishlogo.png" class="logo" alt="Deep Dive Dubai Logo">
 
-<!-- Form Container -->
+
+
 <div class="form-container">
   <h2>Instructor Meet Feedback</h2>
   <form id="surveyForm">
+
     <label>How did you hear about this event?</label>
     <input type="text" name="hear_about" required>
 
@@ -279,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   surveyForm.addEventListener('submit', async function(e) {
     e.preventDefault();
+    
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
 
@@ -289,15 +279,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const payload = {
         timestamp: new Date().toISOString(),
-        ...formObject
+        hear_about: formObject.hear_about,
+        monthly_classes: formObject.monthly_classes,
+        certification_agencies: formObject.certification_agencies,
+        conduct_location: formObject.conduct_location,
+        membership_familiarity: formObject.membership_familiarity,
+        presentation_clarity: formObject.presentation_clarity,
+        price_reasonability: formObject.price_reasonability,
+        interest_in_partnership: formObject.interest_in_partnership,
+        event_benefit: formObject.event_benefit,
+        additional_feedback: formObject.additional_feedback,
+        followup_contact: formObject.followup_contact,
+        contact_info: formObject.contact_info
       };
 
       await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': 'YOUR_SUPABASE_API_KEY',
-          'Authorization': 'Bearer YOUR_SUPABASE_API_KEY',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify(payload)
