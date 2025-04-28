@@ -8,21 +8,25 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #f0f4f8);
       margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      padding: 0;
+      background: url('https://cdn.prod.website-files.com/669a3c4d5c931ae19ea9256e/67b2c338e70b867a63e76e83_nitrox-courses.webp') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 150px;
+      height: auto;
     }
     .form-container {
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
       padding: 40px 30px;
       border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      width: 100%;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       max-width: 700px;
+      margin: 100px auto;
       animation: fadeIn 1s ease;
     }
     @keyframes fadeIn {
@@ -52,7 +56,13 @@
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 16px;
-      transition: border-color 0.3s;
+      transition: 0.3s;
+    }
+    input:hover,
+    select:hover,
+    textarea:hover {
+      border-color: #0077b6;
+      box-shadow: 0 0 5px #00b4d8;
     }
     input:focus,
     select:focus,
@@ -75,7 +85,7 @@
       font-weight: 600;
       width: 100%;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
+      transition: 0.3s;
     }
     button:hover {
       background: linear-gradient(135deg, #005f8a, #0077b6);
@@ -87,7 +97,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
       display: none;
       justify-content: center;
       align-items: center;
@@ -100,26 +110,24 @@
       text-align: center;
       animation: popFade 0.5s ease;
       max-width: 90%;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
     @keyframes popFade {
       from { opacity: 0; transform: scale(0.8); }
       to { opacity: 1; transform: scale(1); }
+    }
+    .popup-content img {
+      width: 100px;
+      margin-bottom: 20px;
     }
     .popup-content h3 {
       color: #28a745;
       font-size: 24px;
       margin-bottom: 10px;
     }
-    .popup-content .checkmark {
-      font-size: 60px;
-      color: #28a745;
-      margin-bottom: 20px;
-      animation: bounce 0.6s ease;
-    }
-    @keyframes bounce {
-      0% { transform: scale(0); }
-      60% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+    .popup-content p {
+      font-size: 18px;
+      color: #555;
     }
     .popup-content button {
       margin-top: 20px;
@@ -138,23 +146,25 @@
 </head>
 <body>
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Deep_Dive_Dubai_logo.svg/2560px-Deep_Dive_Dubai_logo.svg.png" class="logo" alt="Deep Dive Dubai Logo">
+
 <div class="form-container">
   <h2>Instructor Meet Feedback</h2>
   <form id="surveyForm">
 
-    <label class="required">How did you hear about this event?</label>
+    <label>How did you hear about this event?</label>
     <input type="text" name="hear_about" required>
 
-    <label class="required">On average, how many classes/courses do you teach monthly?</label>
+    <label>On average, how many classes/courses do you teach monthly?</label>
     <input type="number" name="monthly_classes" required min="0">
 
-    <label class="required">Please list your preferred certification agencies (in order of activity):</label>
+    <label>Please list your preferred certification agencies (in order of activity):</label>
     <input type="text" name="certification_agencies" required>
 
-    <label class="required">Where do you typically conduct your classes/courses?</label>
+    <label>Where do you typically conduct your classes/courses?</label>
     <input type="text" name="conduct_location" required>
 
-    <label class="required">How familiar were you with our Membership Program before today's event?</label>
+    <label>How familiar were you with our Membership Program before today's event?</label>
     <select name="membership_familiarity" required>
       <option value="">Select</option>
       <option>Never heard about it</option>
@@ -163,7 +173,7 @@
       <option>Very familiar</option>
     </select>
 
-    <label class="required">How clear was the presentation about Membership Program benefits?</label>
+    <label>How clear was the presentation about Membership Program benefits?</label>
     <select name="presentation_clarity" required>
       <option value="">Select</option>
       <option>Very clear</option>
@@ -173,7 +183,7 @@
       <option>Very unclear</option>
     </select>
 
-    <label class="required">Do you feel the prices and commission we offer are reasonable?</label>
+    <label>Do you feel the prices and commission we offer are reasonable?</label>
     <select name="price_reasonability" required>
       <option value="">Select</option>
       <option>Very reasonable</option>
@@ -183,7 +193,7 @@
       <option>Very unreasonable</option>
     </select>
 
-    <label class="required">Would you be interested in partnering with us?</label>
+    <label>Would you be interested in partnering with us?</label>
     <select name="interest_in_partnership" required>
       <option value="">Select</option>
       <option>Yes</option>
@@ -191,7 +201,7 @@
       <option>Maybe</option>
     </select>
 
-    <label class="required">Overall, how beneficial was today's event?</label>
+    <label>Overall, how beneficial was today's event?</label>
     <select name="event_benefit" required>
       <option value="">Select</option>
       <option>1 - Not beneficial at all</option>
@@ -204,7 +214,7 @@
     <label>Any suggestions, opinions, or feedback you'd like to share?</label>
     <textarea name="additional_feedback"></textarea>
 
-    <label class="required">Would you like us to contact you for a follow-up?</label>
+    <label>Would you like us to contact you for a follow-up?</label>
     <select name="followup_contact" required id="followupSelect">
       <option value="">Select</option>
       <option>Yes</option>
@@ -220,89 +230,89 @@
   </form>
 </div>
 
-<!-- Popup -->
+<!-- Thank You Popup -->
 <div id="thankYouPopup" class="popup">
   <div class="popup-content">
-    <div class="checkmark">✅</div>
+    <img src="https://cdn-icons-png.flaticon.com/512/1082/1082650.png" alt="Handshake">
     <h3>Thank you!</h3>
-    <p>Your feedback has been received.</p>
+    <p>Thank you for your cooperation!</p>
     <button onclick="closePopup()">OK</button>
   </div>
 </div>
 
 <script>
-  function closePopup() {
-    document.getElementById('thankYouPopup').style.display = 'none';
-  }
+function closePopup() {
+  document.getElementById('thankYouPopup').style.display = 'none';
+}
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const surveyForm = document.getElementById('surveyForm');
-    const followupSelect = document.getElementById('followupSelect');
-    const contactInfo = document.getElementById('contactInfo');
-    const contactInput = document.getElementById('contactInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const popup = document.getElementById('thankYouPopup');
+document.addEventListener('DOMContentLoaded', function() {
+  const surveyForm = document.getElementById('surveyForm');
+  const followupSelect = document.getElementById('followupSelect');
+  const contactInfo = document.getElementById('contactInfo');
+  const contactInput = document.getElementById('contactInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const popup = document.getElementById('thankYouPopup');
 
-    followupSelect.addEventListener('change', function() {
-      if (this.value === 'Yes') {
-        contactInfo.style.display = 'block';
-        contactInput.required = true;
-      } else {
-        contactInfo.style.display = 'none';
-        contactInput.required = false;
-      }
-    });
-
-    surveyForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
-
-      try {
-        const formData = new FormData(surveyForm);
-        const formObject = {};
-        formData.forEach((value, key) => formObject[key] = value);
-
-        const payload = {
-          timestamp: new Date().toISOString(),
-          hear_about: formObject.hear_about,
-          monthly_classes: formObject.monthly_classes,
-          certification_agencies: formObject.certification_agencies,
-          conduct_location: formObject.conduct_location,
-          membership_familiarity: formObject.membership_familiarity,
-          presentation_clarity: formObject.presentation_clarity,
-          price_reasonability: formObject.price_reasonability,
-          interest_in_partnership: formObject.interest_in_partnership,
-          event_benefit: formObject.event_benefit,
-          additional_feedback: formObject.additional_feedback,
-          followup_contact: formObject.followup_contact,
-          contact_info: formObject.contact_info
-        };
-
-        await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        popup.style.display = 'flex';
-        surveyForm.reset();
-        contactInfo.style.display = 'none';
-      } catch (error) {
-        console.error('Submission error:', error);
-        alert('Error submitting the form.');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Feedback';
-      }
-    });
+  followupSelect.addEventListener('change', function() {
+    if (this.value === 'Yes') {
+      contactInfo.style.display = 'block';
+      contactInput.required = true;
+    } else {
+      contactInfo.style.display = 'none';
+      contactInput.required = false;
+    }
   });
+
+  surveyForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      const formData = new FormData(surveyForm);
+      const formObject = {};
+      formData.forEach((value, key) => formObject[key] = value);
+
+      const payload = {
+        timestamp: new Date().toISOString(),
+        hear_about: formObject.hear_about,
+        monthly_classes: formObject.monthly_classes,
+        certification_agencies: formObject.certification_agencies,
+        conduct_location: formObject.conduct_location,
+        membership_familiarity: formObject.membership_familiarity,
+        presentation_clarity: formObject.presentation_clarity,
+        price_reasonability: formObject.price_reasonability,
+        interest_in_partnership: formObject.interest_in_partnership,
+        event_benefit: formObject.event_benefit,
+        additional_feedback: formObject.additional_feedback,
+        followup_contact: formObject.followup_contact,
+        contact_info: formObject.contact_info
+      };
+
+      await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      popup.style.display = 'flex';
+      surveyForm.reset();
+      contactInfo.style.display = 'none';
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Error submitting the form.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Feedback';
+    }
+  });
+});
 </script>
 
 </body>
