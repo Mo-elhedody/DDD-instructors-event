@@ -10,9 +10,11 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: url('7-Deep-Dive-Dubai-A-young-scuba-diver-scaled.jpg') no-repeat center center fixed;
+      background: url('welcome-to-deep-dive.jpg') no-repeat center center fixed;
       background-size: cover;
       position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
     .background-logo {
       position: absolute;
@@ -22,33 +24,58 @@
       opacity: 0.85;
       z-index: 1;
     }
-    .form-container {
-      background: rgba(255, 255, 255, 0.75);
+    .container {
+      background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(10px);
-      padding: 40px 30px;
       border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      padding: 40px 30px;
+      box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6, 0 0 60px #0096c7;
       max-width: 700px;
       margin: 160px auto 60px;
+      text-align: center;
       animation: fadeIn 1s ease;
       z-index: 5;
       position: relative;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
+    h1, h2 {
       color: #0077b6;
-      font-weight: 700;
-      font-size: 30px;
+      margin-bottom: 20px;
     }
-    label {
+    p {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    button {
+      background: linear-gradient(135deg, #0077b6, #0096c7);
+      color: white;
+      padding: 14px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #005f8a, #0077b6);
+      transform: scale(1.05);
+    }
+    form label {
       display: block;
       margin-top: 15px;
       font-weight: 600;
+      text-align: left;
       color: #333;
       font-size: 16px;
     }
@@ -77,30 +104,9 @@
       height: 100px;
       resize: vertical;
     }
-    button {
+    #surveyForm button {
       margin-top: 25px;
-      background: linear-gradient(135deg, #0077b6, #0096c7);
-      color: white;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: 600;
       width: 100%;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: linear-gradient(135deg, #005f8a, #0077b6);
-      transform: scale(1.02);
-    }
-    @media (max-width: 768px) {
-      .form-container {
-        margin: 60px 20px;
-      }
-      .background-logo {
-        width: 140px;
-      }
     }
     /* Popup */
     .popup {
@@ -158,7 +164,17 @@
 
 <img src="59a19db5-ddd_englishlogo.png" class="background-logo" alt="Deep Dive Dubai Logo">
 
-<div class="form-container">
+<!-- Welcome Container -->
+<div class="container" id="welcomeContainer">
+  <h1>Welcome, Instructors!</h1>
+  <p>We highly value your experience, insights, and partnership.<br>
+  Your feedback today will help us shape a better, stronger collaboration.<br>
+  Thank you for taking the time to share your thoughts with us!</p>
+  <button onclick="startSurvey()">Start Survey</button>
+</div>
+
+<!-- Survey Form Container -->
+<div class="container hidden" id="formContainer">
   <h2>Instructor Meet Feedback</h2>
   <form id="surveyForm">
 
@@ -205,6 +221,15 @@
 </div>
 
 <script>
+function startSurvey() {
+  const welcome = document.getElementById('welcomeContainer');
+  const form = document.getElementById('formContainer');
+  welcome.classList.add('hidden');
+  setTimeout(() => {
+    form.classList.remove('hidden');
+  }, 1000);
+}
+
 function closePopup() {
   document.getElementById('thankYouPopup').style.display = 'none';
 }
@@ -233,8 +258,8 @@ document.addEventListener('DOMContentLoaded', function() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': 'YOUR_SUPABASE_API_KEY',
-          'Authorization': 'Bearer YOUR_SUPABASE_API_KEY',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify(payload)
@@ -252,6 +277,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
+
 
 </body>
 </html>
