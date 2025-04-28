@@ -206,15 +206,16 @@ document.addEventListener('DOMContentLoaded', function() {
       };
 
       await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(payload)
-      });
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+    'Prefer': 'return=minimal'
+  },
+  body: JSON.stringify(payload)
+});
+
 
       popup.style.display = 'flex';
       surveyForm.reset();
