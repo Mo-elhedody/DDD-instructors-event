@@ -4,30 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Instructor Meet Survey - Deep Dive Dubai</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f0f4f8);
       margin: 0;
       padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
     .form-container {
-      max-width: 700px;
       background: white;
-      padding: 30px;
-      border-radius: 10px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 700px;
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: #0077b6;
+      font-weight: 600;
+      font-size: 28px;
     }
     label {
       display: block;
       margin-top: 15px;
-      font-weight: bold;
+      font-weight: 600;
       color: #333;
     }
     input[type="text"],
@@ -35,41 +47,47 @@
     select,
     textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin-top: 5px;
-      border-radius: 5px;
+      border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #0077b6;
+      outline: none;
     }
     textarea {
       height: 100px;
       resize: vertical;
     }
     button {
-      margin-top: 20px;
-      background-color: #0077b6;
+      margin-top: 25px;
+      background: linear-gradient(135deg, #0077b6, #0096c7);
       color: white;
-      padding: 12px 20px;
+      padding: 15px 20px;
       border: none;
-      border-radius: 5px;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
       width: 100%;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background 0.3s, transform 0.2s;
     }
     button:hover {
-      background-color: #005f8a;
-    }
-    button:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
+      background: linear-gradient(135deg, #005f8a, #0077b6);
+      transform: scale(1.02);
     }
     .message {
       margin-top: 20px;
-      padding: 15px;
-      border-radius: 5px;
+      padding: 20px;
+      border-radius: 10px;
       text-align: center;
       display: none;
+      font-size: 18px;
     }
     .success {
       background-color: #d4edda;
@@ -163,18 +181,18 @@
     </select>
 
     <div id="contactInfo" style="display:none;">
-      <label class="required">If yes, please provide your email or phone:</label>
+      <label>If yes, please provide your email or phone:</label>
       <input type="text" name="contact_info" id="contactInput">
     </div>
 
     <button type="submit" id="submitBtn">Submit Feedback</button>
 
     <div id="successMessage" class="message success">
-      Thank you for your feedback! Your response has been recorded.
+      ✅ Thank you! Your feedback was submitted successfully!
     </div>
 
     <div id="errorMessage" class="message error">
-      There was an error submitting your form. Please try again later.
+      ❌ Oops! Something went wrong. Please try again later.
     </div>
 
   </form>
@@ -182,78 +200,77 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-  const surveyForm = document.getElementById('surveyForm');
-  const followupSelect = document.getElementById('followupSelect');
-  const contactInfo = document.getElementById('contactInfo');
-  const contactInput = document.getElementById('contactInput');
-  const submitBtn = document.getElementById('submitBtn');
-  const successMessage = document.getElementById('successMessage');
-  const errorMessage = document.getElementById('errorMessage');
+    const surveyForm = document.getElementById('surveyForm');
+    const followupSelect = document.getElementById('followupSelect');
+    const contactInfo = document.getElementById('contactInfo');
+    const contactInput = document.getElementById('contactInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
 
-  followupSelect.addEventListener('change', function() {
-    if (this.value === 'Yes') {
-      contactInfo.style.display = 'block';
-      contactInput.required = true;
-    } else {
-      contactInfo.style.display = 'none';
-      contactInput.required = false;
-    }
+    followupSelect.addEventListener('change', function() {
+      if (this.value === 'Yes') {
+        contactInfo.style.display = 'block';
+        contactInput.required = true;
+      } else {
+        contactInfo.style.display = 'none';
+        contactInput.required = false;
+      }
+    });
+
+    surveyForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      try {
+        const formData = new FormData(surveyForm);
+        const formObject = {};
+        formData.forEach((value, key) => formObject[key] = value);
+
+        const payload = {
+          timestamp: new Date().toISOString(),
+          hear_about: formObject.hear_about,
+          monthly_classes: formObject.monthly_classes,
+          certification_agencies: formObject.certification_agencies,
+          conduct_location: formObject.conduct_location,
+          membership_familiarity: formObject.membership_familiarity,
+          presentation_clarity: formObject.presentation_clarity,
+          price_reasonability: formObject.price_reasonability,
+          interest_in_partnership: formObject.interest_in_partnership,
+          event_benefit: formObject.event_benefit,
+          additional_feedback: formObject.additional_feedback,
+          followup_contact: formObject.followup_contact,
+          contact_info: formObject.contact_info
+        };
+
+        await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        successMessage.style.display = 'block';
+        surveyForm.reset();
+        contactInfo.style.display = 'none';
+      } catch (error) {
+        console.error('Submission error:', error);
+        errorMessage.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Feedback';
+      }
+    });
   });
-
-  surveyForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    successMessage.style.display = 'none';
-    errorMessage.style.display = 'none';
-    
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
-
-    try {
-      const formData = new FormData(surveyForm);
-      const formObject = {};
-      formData.forEach((value, key) => formObject[key] = value);
-
-      const payload = {
-        timestamp: new Date().toISOString(),
-        hear_about: formObject.hear_about,
-        monthly_classes: formObject.monthly_classes,
-        certification_agencies: formObject.certification_agencies,
-        conduct_location: formObject.conduct_location,
-        membership_familiarity: formObject.membership_familiarity,
-        presentation_clarity: formObject.presentation_clarity,
-        price_reasonability: formObject.price_reasonability,
-        interest_in_partnership: formObject.interest_in_partnership,
-        event_benefit: formObject.event_benefit,
-        additional_feedback: formObject.additional_feedback,
-        followup_contact: formObject.followup_contact,
-        contact_info: formObject.contact_info
-      };
-
-      await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      successMessage.style.display = 'block';
-      surveyForm.reset();
-      contactInfo.style.display = 'none';
-    } catch (error) {
-      console.error('Submission error:', error);
-      errorMessage.style.display = 'block';
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit Feedback';
-    }
-  });
-});
-
 </script>
 
 </body>
