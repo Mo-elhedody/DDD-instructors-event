@@ -15,6 +15,7 @@
       position: relative;
       min-height: 100vh;
       overflow-x: hidden;
+      overflow-y: auto;
     }
     .background-logo {
       position: absolute;
@@ -25,23 +26,27 @@
       z-index: 1;
     }
     .container {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(10px);
       border-radius: 20px;
       padding: 40px 30px;
       box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6, 0 0 60px #0096c7;
       max-width: 700px;
-      margin: 160px auto 60px;
+      margin: 100px auto;
       text-align: center;
       animation: fadeIn 1s ease;
       z-index: 5;
       position: relative;
       opacity: 1;
-      transition: opacity 1s ease;
+      transition: opacity 1s ease, visibility 1s ease;
     }
-    .hidden {
+    #formContainer {
+      visibility: hidden;
       opacity: 0;
-      pointer-events: none;
+    }
+    .visible {
+      visibility: visible;
+      opacity: 1;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -174,7 +179,7 @@
 </div>
 
 <!-- Survey Form Container -->
-<div class="container hidden" id="formContainer">
+<div class="container" id="formContainer">
   <h2>Instructor Meet Feedback</h2>
   <form id="surveyForm">
 
@@ -213,9 +218,9 @@
 <!-- Thank You Popup -->
 <div id="thankYouPopup" class="popup">
   <div class="popup-content">
-    <img src="https://cdn-icons-png.flaticon.com/512/1082/1082650.png" alt="Handshake">
+    <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Thank You">
     <h3>Thank you!</h3>
-    <p>Thank you for your cooperation!</p>
+    <p>We appreciate your input and collaboration!</p>
     <button onclick="closePopup()">OK</button>
   </div>
 </div>
@@ -226,7 +231,8 @@ function startSurvey() {
   const form = document.getElementById('formContainer');
   welcome.classList.add('hidden');
   setTimeout(() => {
-    form.classList.remove('hidden');
+    form.classList.add('visible');
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 1000);
 }
 
@@ -277,8 +283,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-
-
 
 </body>
 </html>
