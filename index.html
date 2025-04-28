@@ -10,7 +10,7 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.instagram.com%2Fdeepdivedubai%2Freel%2FC97EHEwPfEl%2F&psig=AOvVaw3iD0F4SR0pYDGpFq6im0tu&ust=1745921619948000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCNCfjYG_-owDFQAAAAAdAAAAABAJ') no-repeat center center fixed;
+      background: url('https://cdn.prod.website-files.com/669a3c4d5c931ae19ea9256e83_nitrox-courses.webp') no-repeat center center fixed;
       background-size: cover;
       position: relative;
     }
@@ -25,15 +25,12 @@
     .form-container {
       background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(10px);
-      padding: 30px;
+      padding: 40px 30px;
       border-radius: 20px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      max-width: 900px;
-      margin: 140px auto 60px;
+      max-width: 700px;
+      margin: 160px auto 60px;
       animation: fadeIn 1s ease;
-      display: flex;
-      align-items: flex-start;
-      gap: 30px;
       z-index: 5;
       position: relative;
     }
@@ -41,23 +38,9 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .logo-side {
-      flex: 0 0 140px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 10px;
-    }
-    .logo-side img {
-      width: 100px;
-      height: auto;
-    }
-    .form-side {
-      flex: 1;
-    }
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: #0077b6;
       font-weight: 700;
       font-size: 30px;
@@ -98,7 +81,7 @@
       resize: vertical;
     }
     button {
-      margin-top: 20px;
+      margin-top: 25px;
       background: linear-gradient(135deg, #0077b6, #0096c7);
       color: white;
       padding: 14px 20px;
@@ -116,12 +99,7 @@
     }
     @media (max-width: 768px) {
       .form-container {
-        flex-direction: column;
         margin: 60px 20px;
-        text-align: center;
-      }
-      .logo-side img {
-        width: 80px;
       }
       .background-logo {
         width: 140px;
@@ -181,94 +159,89 @@
 
 <body>
 
-<!-- Background logo top left -->
+<!-- Background Logo -->
 <img src="59a19db5-ddd_englishlogo.png" class="background-logo" alt="Deep Dive Dubai Background Logo">
 
-<!-- Form -->
+<!-- Form Container -->
 <div class="form-container">
-  <div class="logo-side">
-    <img src="59a19db5-ddd_englishlogo.png" alt="Deep Dive Dubai Form Logo">
-  </div>
-  <div class="form-side">
-    <h2>Instructor Meet Feedback</h2>
-    <form id="surveyForm">
-      <label>How did you hear about this event?</label>
-      <input type="text" name="hear_about" required>
+  <h2>Instructor Meet Feedback</h2>
+  <form id="surveyForm">
+    <label>How did you hear about this event?</label>
+    <input type="text" name="hear_about" required>
 
-      <label>On average, how many classes/courses do you teach monthly?</label>
-      <input type="number" name="monthly_classes" required min="0">
+    <label>On average, how many classes/courses do you teach monthly?</label>
+    <input type="number" name="monthly_classes" required min="0">
 
-      <label>Please list your preferred certification agencies (in order of activity):</label>
-      <input type="text" name="certification_agencies" required>
+    <label>Please list your preferred certification agencies (in order of activity):</label>
+    <input type="text" name="certification_agencies" required>
 
-      <label>Where do you typically conduct your classes/courses?</label>
-      <input type="text" name="conduct_location" required>
+    <label>Where do you typically conduct your classes/courses?</label>
+    <input type="text" name="conduct_location" required>
 
-      <label>How familiar were you with our Membership Program before today's event?</label>
-      <select name="membership_familiarity" required>
-        <option value="">Select</option>
-        <option>Never heard about it</option>
-        <option>Heard a little</option>
-        <option>Fairly familiar</option>
-        <option>Very familiar</option>
-      </select>
+    <label>How familiar were you with our Membership Program before today's event?</label>
+    <select name="membership_familiarity" required>
+      <option value="">Select</option>
+      <option>Never heard about it</option>
+      <option>Heard a little</option>
+      <option>Fairly familiar</option>
+      <option>Very familiar</option>
+    </select>
 
-      <label>How clear was the presentation about Membership Program benefits?</label>
-      <select name="presentation_clarity" required>
-        <option value="">Select</option>
-        <option>Very clear</option>
-        <option>Somewhat clear</option>
-        <option>Neutral</option>
-        <option>Somewhat unclear</option>
-        <option>Very unclear</option>
-      </select>
+    <label>How clear was the presentation about Membership Program benefits?</label>
+    <select name="presentation_clarity" required>
+      <option value="">Select</option>
+      <option>Very clear</option>
+      <option>Somewhat clear</option>
+      <option>Neutral</option>
+      <option>Somewhat unclear</option>
+      <option>Very unclear</option>
+    </select>
 
-      <label>Do you feel the prices and commission we offer are reasonable?</label>
-      <select name="price_reasonability" required>
-        <option value="">Select</option>
-        <option>Very reasonable</option>
-        <option>Reasonable</option>
-        <option>Neutral</option>
-        <option>Slightly unreasonable</option>
-        <option>Very unreasonable</option>
-      </select>
+    <label>Do you feel the prices and commission we offer are reasonable?</label>
+    <select name="price_reasonability" required>
+      <option value="">Select</option>
+      <option>Very reasonable</option>
+      <option>Reasonable</option>
+      <option>Neutral</option>
+      <option>Slightly unreasonable</option>
+      <option>Very unreasonable</option>
+    </select>
 
-      <label>Would you be interested in partnering with us?</label>
-      <select name="interest_in_partnership" required>
-        <option value="">Select</option>
-        <option>Yes</option>
-        <option>No</option>
-        <option>Maybe</option>
-      </select>
+    <label>Would you be interested in partnering with us?</label>
+    <select name="interest_in_partnership" required>
+      <option value="">Select</option>
+      <option>Yes</option>
+      <option>No</option>
+      <option>Maybe</option>
+    </select>
 
-      <label>Overall, how beneficial was today's event?</label>
-      <select name="event_benefit" required>
-        <option value="">Select</option>
-        <option>1 - Not beneficial at all</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5 - Extremely beneficial</option>
-      </select>
+    <label>Overall, how beneficial was today's event?</label>
+    <select name="event_benefit" required>
+      <option value="">Select</option>
+      <option>1 - Not beneficial at all</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5 - Extremely beneficial</option>
+    </select>
 
-      <label>Any suggestions, opinions, or feedback you'd like to share?</label>
-      <textarea name="additional_feedback"></textarea>
+    <label>Any suggestions, opinions, or feedback you'd like to share?</label>
+    <textarea name="additional_feedback"></textarea>
 
-      <label>Would you like us to contact you for a follow-up?</label>
-      <select name="followup_contact" required id="followupSelect">
-        <option value="">Select</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
+    <label>Would you like us to contact you for a follow-up?</label>
+    <select name="followup_contact" required id="followupSelect">
+      <option value="">Select</option>
+      <option>Yes</option>
+      <option>No</option>
+    </select>
 
-      <div id="contactInfo" style="display:none;">
-        <label>If yes, please provide your email or phone:</label>
-        <input type="text" name="contact_info" id="contactInput">
-      </div>
+    <div id="contactInfo" style="display:none;">
+      <label>If yes, please provide your email or phone:</label>
+      <input type="text" name="contact_info" id="contactInput">
+    </div>
 
-      <button type="submit" id="submitBtn">Submit Feedback</button>
-    </form>
-  </div>
+    <button type="submit" id="submitBtn">Submit Feedback</button>
+  </form>
 </div>
 
 <!-- Thank You Popup -->
@@ -306,7 +279,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   surveyForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
 
