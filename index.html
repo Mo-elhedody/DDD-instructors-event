@@ -182,59 +182,78 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const surveyForm = document.getElementById('surveyForm');
-    const followupSelect = document.getElementById('followupSelect');
-    const contactInfo = document.getElementById('contactInfo');
-    const contactInput = document.getElementById('contactInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage = document.getElementById('errorMessage');
+  const surveyForm = document.getElementById('surveyForm');
+  const followupSelect = document.getElementById('followupSelect');
+  const contactInfo = document.getElementById('contactInfo');
+  const contactInput = document.getElementById('contactInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const successMessage = document.getElementById('successMessage');
+  const errorMessage = document.getElementById('errorMessage');
 
-    followupSelect.addEventListener('change', function() {
-      if (this.value === 'Yes') {
-        contactInfo.style.display = 'block';
-        contactInput.required = true;
-      } else {
-        contactInfo.style.display = 'none';
-        contactInput.required = false;
-      }
-    });
+  followupSelect.addEventListener('change', function() {
+    if (this.value === 'Yes') {
+      contactInfo.style.display = 'block';
+      contactInput.required = true;
+    } else {
+      contactInfo.style.display = 'none';
+      contactInput.required = false;
+    }
+  });
 
-    surveyForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      successMessage.style.display = 'none';
-      errorMessage.style.display = 'none';
-      
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
+  surveyForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    successMessage.style.display = 'none';
+    errorMessage.style.display = 'none';
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
 
-      try {
-        const formData = new FormData(surveyForm);
-const formObject = {};
-formData.forEach((value, key) => formObject[key] = value);
+    try {
+      const formData = new FormData(surveyForm);
+      const formObject = {};
+      formData.forEach((value, key) => formObject[key] = value);
 
-const urlEncoded = new URLSearchParams(formObject);
-const scriptUrl = 'https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec';
+      const payload = {
+        timestamp: new Date().toISOString(),
+        hear_about: formObject.hear_about,
+        monthly_classes: formObject.monthly_classes,
+        certification_agencies: formObject.certification_agencies,
+        conduct_location: formObject.conduct_location,
+        membership_familiarity: formObject.membership_familiarity,
+        presentation_clarity: formObject.presentation_clarity,
+        price_reasonability: formObject.price_reasonability,
+        interest_in_partnership: formObject.interest_in_partnership,
+        event_benefit: formObject.event_benefit,
+        additional_feedback: formObject.additional_feedback,
+        followup_contact: formObject.followup_contact,
+        contact_info: formObject.contact_info
+      };
 
-await fetch(scriptUrl + '?timestamp=' + new Date().getTime(), {
-  method: 'POST',
-  body: urlEncoded
+      await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      successMessage.style.display = 'block';
+      surveyForm.reset();
+      contactInfo.style.display = 'none';
+    } catch (error) {
+      console.error('Submission error:', error);
+      errorMessage.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Feedback';
+    }
+  });
 });
 
-
-        successMessage.style.display = 'block';
-        surveyForm.reset();
-        contactInfo.style.display = 'none';
-      } catch (error) {
-        console.error('Submission error:', error);
-        errorMessage.style.display = 'block';
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Feedback';
-      }
-    });
-  });
 </script>
 
 </body>
