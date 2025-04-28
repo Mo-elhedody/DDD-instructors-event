@@ -6,32 +6,33 @@
   <title>Instructor Meet Survey - Deep Dive Dubai</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-  body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url('7-Deep-Dive-Dubai-A-young-scuba-diver-scaled.jpg') no-repeat center center fixed;
-    background-size: cover;
-    position: relative;
-  }
-
-    .logo {
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('7-Deep-Dive-Dubai-A-young-scuba-diver-scaled.jpg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+    .background-logo {
       position: absolute;
       top: 20px;
       left: 20px;
-      width: 150px;
-      height: auto;
-      color: white;
+      width: 220px;
+      opacity: 0.85;
+      z-index: 1;
     }
     .form-container {
-     background: rgba(255, 255, 255, 0.7);
-backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
       padding: 40px 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       max-width: 700px;
-      margin: 100px auto;
+      margin: 160px auto 60px;
       animation: fadeIn 1s ease;
+      z-index: 5;
+      position: relative;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -41,18 +42,18 @@ backdrop-filter: blur(10px);
       text-align: center;
       margin-bottom: 30px;
       color: #0077b6;
-      font-weight: 600;
-      font-size: 28px;
+      font-weight: 700;
+      font-size: 30px;
     }
     label {
       display: block;
       margin-top: 15px;
       font-weight: 600;
       color: #333;
+      font-size: 16px;
     }
     input[type="text"],
-    input[type="number"],
-    select,
+    input[type="email"],
     textarea {
       width: 100%;
       padding: 12px;
@@ -63,13 +64,11 @@ backdrop-filter: blur(10px);
       transition: 0.3s;
     }
     input:hover,
-    select:hover,
     textarea:hover {
       border-color: #0077b6;
-      box-shadow: 0 0 5px #00b4d8;
+      box-shadow: 0 0 8px #00b4d8;
     }
     input:focus,
-    select:focus,
     textarea:focus {
       border-color: #0077b6;
       outline: none;
@@ -82,7 +81,7 @@ backdrop-filter: blur(10px);
       margin-top: 25px;
       background: linear-gradient(135deg, #0077b6, #0096c7);
       color: white;
-      padding: 15px 20px;
+      padding: 14px 20px;
       border: none;
       border-radius: 8px;
       font-size: 18px;
@@ -95,12 +94,18 @@ backdrop-filter: blur(10px);
       background: linear-gradient(135deg, #005f8a, #0077b6);
       transform: scale(1.02);
     }
+    @media (max-width: 768px) {
+      .form-container {
+        margin: 60px 20px;
+      }
+      .background-logo {
+        width: 140px;
+      }
+    }
+    /* Popup */
     .popup {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.6);
       display: none;
       justify-content: center;
@@ -148,91 +153,44 @@ backdrop-filter: blur(10px);
     }
   </style>
 </head>
+
 <body>
 
-<img src="59a19db5-ddd_englishlogo.png" class="logo" alt="Deep Dive Dubai Logo">
-
-
+<img src="59a19db5-ddd_englishlogo.png" class="background-logo" alt="Deep Dive Dubai Logo">
 
 <div class="form-container">
   <h2>Instructor Meet Feedback</h2>
   <form id="surveyForm">
 
+    <label>Name:</label>
+    <input type="text" name="name" required>
+
+    <label>Email:</label>
+    <input type="email" name="email" required>
+
     <label>How did you hear about this event?</label>
     <input type="text" name="hear_about" required>
 
     <label>On average, how many classes/courses do you teach monthly?</label>
-    <input type="number" name="monthly_classes" required min="0">
+    <input type="text" name="monthly_classes" required>
 
-    <label>Please list your preferred certification agencies (in order of activity):</label>
+    <label>Please list your preferred certification agencies in order of activity:</label>
     <input type="text" name="certification_agencies" required>
 
     <label>Where do you typically conduct your classes/courses?</label>
     <input type="text" name="conduct_location" required>
 
-    <label>How familiar were you with our Membership Program before today's event?</label>
-    <select name="membership_familiarity" required>
-      <option value="">Select</option>
-      <option>Never heard about it</option>
-      <option>Heard a little</option>
-      <option>Fairly familiar</option>
-      <option>Very familiar</option>
-    </select>
-
-    <label>How clear was the presentation about Membership Program benefits?</label>
-    <select name="presentation_clarity" required>
-      <option value="">Select</option>
-      <option>Very clear</option>
-      <option>Somewhat clear</option>
-      <option>Neutral</option>
-      <option>Somewhat unclear</option>
-      <option>Very unclear</option>
-    </select>
-
     <label>Do you feel the prices and commission we offer are reasonable?</label>
-    <select name="price_reasonability" required>
-      <option value="">Select</option>
-      <option>Very reasonable</option>
-      <option>Reasonable</option>
-      <option>Neutral</option>
-      <option>Slightly unreasonable</option>
-      <option>Very unreasonable</option>
-    </select>
+    <input type="text" name="price_reasonability" required>
 
-    <label>Would you be interested in partnering with us?</label>
-    <select name="interest_in_partnership" required>
-      <option value="">Select</option>
-      <option>Yes</option>
-      <option>No</option>
-      <option>Maybe</option>
-    </select>
+    <label>Did you find the Instructor Meet event beneficial overall?</label>
+    <input type="text" name="event_benefit" required>
 
-    <label>Overall, how beneficial was today's event?</label>
-    <select name="event_benefit" required>
-      <option value="">Select</option>
-      <option>1 - Not beneficial at all</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5 - Extremely beneficial</option>
-    </select>
-
-    <label>Any suggestions, opinions, or feedback you'd like to share?</label>
+    <label>Additional thoughts, opinions, or suggestions:</label>
     <textarea name="additional_feedback"></textarea>
 
-    <label>Would you like us to contact you for a follow-up?</label>
-    <select name="followup_contact" required id="followupSelect">
-      <option value="">Select</option>
-      <option>Yes</option>
-      <option>No</option>
-    </select>
-
-    <div id="contactInfo" style="display:none;">
-      <label>If yes, please provide your email or phone:</label>
-      <input type="text" name="contact_info" id="contactInput">
-    </div>
-
     <button type="submit" id="submitBtn">Submit Feedback</button>
+
   </form>
 </div>
 
@@ -253,25 +211,11 @@ function closePopup() {
 
 document.addEventListener('DOMContentLoaded', function() {
   const surveyForm = document.getElementById('surveyForm');
-  const followupSelect = document.getElementById('followupSelect');
-  const contactInfo = document.getElementById('contactInfo');
-  const contactInput = document.getElementById('contactInput');
   const submitBtn = document.getElementById('submitBtn');
   const popup = document.getElementById('thankYouPopup');
 
-  followupSelect.addEventListener('change', function() {
-    if (this.value === 'Yes') {
-      contactInfo.style.display = 'block';
-      contactInput.required = true;
-    } else {
-      contactInfo.style.display = 'none';
-      contactInput.required = false;
-    }
-  });
-
   surveyForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
 
@@ -282,26 +226,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const payload = {
         timestamp: new Date().toISOString(),
-        hear_about: formObject.hear_about,
-        monthly_classes: formObject.monthly_classes,
-        certification_agencies: formObject.certification_agencies,
-        conduct_location: formObject.conduct_location,
-        membership_familiarity: formObject.membership_familiarity,
-        presentation_clarity: formObject.presentation_clarity,
-        price_reasonability: formObject.price_reasonability,
-        interest_in_partnership: formObject.interest_in_partnership,
-        event_benefit: formObject.event_benefit,
-        additional_feedback: formObject.additional_feedback,
-        followup_contact: formObject.followup_contact,
-        contact_info: formObject.contact_info
+        ...formObject
       };
 
       await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+          'apikey': 'YOUR_SUPABASE_API_KEY',
+          'Authorization': 'Bearer YOUR_SUPABASE_API_KEY',
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify(payload)
@@ -309,7 +242,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
       popup.style.display = 'flex';
       surveyForm.reset();
-      contactInfo.style.display = 'none';
     } catch (error) {
       console.error('Submission error:', error);
       alert('Error submitting the form.');
