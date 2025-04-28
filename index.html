@@ -206,41 +206,27 @@
     surveyForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      // Reset messages
       successMessage.style.display = 'none';
       errorMessage.style.display = 'none';
       
-      // Disable submit button
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting...';
 
       try {
-        // Prepare form data
         const formData = new FormData(surveyForm);
-        const formObject = {};
-        formData.forEach((value, key) => formObject[key] = value);
-
-        // Submit to Google Apps Script
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec';
-        const response = await fetch(scriptUrl + '?timestamp=' + new Date().getTime(), {
+        
+        await fetch(scriptUrl + '?timestamp=' + new Date().getTime(), {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formObject)
+          body: formData
         });
 
-        const result = await response.json();
-        
-        if (result.result === 'success') {
-          successMessage.style.display = 'block';
-          surveyForm.reset();
-          contactInfo.style.display = 'none';
-        } else {
-          throw new Error(result.message || 'Unknown error');
-        }
+        successMessage.style.display = 'block';
+        surveyForm.reset();
+        contactInfo.style.display = 'none';
       } catch (error) {
         console.error('Submission error:', error);
         errorMessage.style.display = 'block';
-        errorMessage.textContent = 'Error: ' + error.message;
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Feedback';
