@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome - Deep Dive Dubai</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('welcome-to-deep-dive.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .welcome-container {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6, 0 0 60px #0096c7;
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+    }
+    h1 {
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+    p {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    button {
+      background: linear-gradient(135deg, #0077b6, #0096c7);
+      color: white;
+      padding: 14px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #005f8a, #0077b6);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+<div class="welcome-container">
+  <h1>Welcome, Instructors!</h1>
+  <p>We highly value your insights, experience, and collaboration.<br>
+  Your feedback today will help us grow stronger together.<br>
+  Thank you for being part of this journey!</p>
+  <button onclick="startSurvey()">Start Survey</button>
+</div>
+
+<script>
+function startSurvey() {
+  window.location.href = "survey.html"; // Open survey page
+}
+</script>
+
+</body>
+</html>
