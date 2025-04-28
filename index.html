@@ -56,6 +56,24 @@
     button:hover {
       background-color: #005f8a;
     }
+    .success-message {
+      display: none;
+      background-color: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .error-message {
+      display: none;
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -140,40 +158,21 @@
 
     <button type="submit">Submit Feedback</button>
 
+    <div id="successMessage" class="success-message">
+      Thank you for your feedback! Your response has been recorded.
+    </div>
+
+    <div id="errorMessage" class="error-message">
+      There was an error submitting your form. Please try again later.
+    </div>
+
   </form>
 </div>
 
 <script>
   const surveyForm = document.getElementById('surveyForm');
-
-  surveyForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(surveyForm);
-    const formObject = {};
-    formData.forEach((value, key) => {
-      formObject[key] = value;
-    });
-
-    try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formObject)
-      });
-
-      if (response.ok) {
-        alert('Thank you for your feedback!');
-        surveyForm.reset();
-        document.getElementById('contactInfo').style.display = 'none';
-      } else {
-        alert('Error submitting the form.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error submitting the form.');
-    }
-  });
+  const successMessage = document.getElementById('successMessage');
+  const errorMessage = document.getElementById('errorMessage');
 
   // Show/hide contact info field based on follow-up selection
   const followupSelect = surveyForm.querySelector('select[name="followup_contact"]');
@@ -185,6 +184,90 @@
       contactInfoDiv.style.display = 'none';
     }
   });
+
+  surveyForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Hide any previous messages
+    successMessage.style.display = 'none';
+    errorMessage.style.display = 'none';
+    
+    // Disable submit button to prevent multiple submissions
+    const submitButton = surveyForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
+
+    // Prepare form data
+    const formData = new FormData(surveyForm);
+    const formObject = {};
+    formData.forEach((value, key) => {
+      formObject[key] = value;
+    });
+
+    try {
+      // Add timestamp to URL to prevent caching issues
+      const scriptUrl = 'https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec?timestamp=' + new Date().getTime();
+      
+      // First try with JSON (works if CORS is properly configured)
+      try {
+        const response = await fetch(scriptUrl, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formObject)
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          if (result.result === 'success') {
+            showSuccess();
+            return;
+          }
+        }
+      } catch (jsonError) {
+        console.log('JSON submission failed, trying URL encoded');
+      }
+
+      // If JSON fails, try URL encoded format
+      const urlEncodedData = new URLSearchParams(formData).toString();
+      const response = await fetch(scriptUrl, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: urlEncodedData
+      });
+
+      // Even if we can't read the response (CORS), assume success if no error
+      showSuccess();
+
+    } catch (error) {
+      console.error('Error:', error);
+      showError();
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Submit Feedback';
+    }
+  });
+
+  function showSuccess() {
+    successMessage.style.display = 'block';
+    errorMessage.style.display = 'none';
+    surveyForm.reset();
+    document.getElementById('contactInfo').style.display = 'none';
+    
+    // Scroll to success message
+    successMessage.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function showError() {
+    successMessage.style.display = 'none';
+    errorMessage.style.display = 'block';
+    
+    // Scroll to error message
+    errorMessage.scrollIntoView({ behavior: 'smooth' });
+  }
 </script>
 
 </body>
