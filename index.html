@@ -32,7 +32,6 @@
     }
     input[type="text"],
     input[type="number"],
-    input[type="email"],
     select,
     textarea {
       width: 100%;
@@ -191,7 +190,6 @@
     const successMessage = document.getElementById('successMessage');
     const errorMessage = document.getElementById('errorMessage');
 
-    // Toggle contact info field
     followupSelect.addEventListener('change', function() {
       if (this.value === 'Yes') {
         contactInfo.style.display = 'block';
@@ -202,7 +200,6 @@
       }
     });
 
-    // Form submission
     surveyForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       
@@ -214,11 +211,15 @@
 
       try {
         const formData = new FormData(surveyForm);
+        const formObject = {};
+        formData.forEach((value, key) => formObject[key] = value);
+
+        const urlEncoded = new URLSearchParams(formObject);
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwzuv8-YXzOOeKBArfW1srRWf-wd_BdAJoT6ChFBjT1vRZtffOKGIop2qGxNW8qQbwg/exec';
-        
+
         await fetch(scriptUrl + '?timestamp=' + new Date().getTime(), {
           method: 'POST',
-          body: formData
+          body: urlEncoded
         });
 
         successMessage.style.display = 'block';
