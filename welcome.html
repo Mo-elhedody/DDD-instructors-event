@@ -11,18 +11,24 @@
       font-family: 'Poppins', sans-serif;
       background: url('welcome-to-deep-dive.jpg') no-repeat center center fixed;
       background-size: cover;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
       overflow: hidden;
+    }
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 150px;
     }
     .welcome-container {
       background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
       padding: 40px 30px;
       border-radius: 20px;
-      box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6, 0 0 60px #0096c7;
+      box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6;
       text-align: center;
       max-width: 600px;
       width: 90%;
@@ -55,6 +61,8 @@
 </head>
 <body>
 
+<img src="59a19db5-ddd_englishlogo.png" class="logo" alt="Deep Dive Dubai Logo">
+
 <div class="welcome-container">
   <h1>Welcome, Instructors!</h1>
   <p>We highly value your insights, experience, and collaboration.<br>
@@ -65,7 +73,7 @@
 
 <script>
 function startSurvey() {
-  window.location.href = "index.html"; // Link to your index.html now
+  window.location.href = "survey.html"; // Go to the survey form page
 }
 </script>
 
