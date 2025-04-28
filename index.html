@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Instructor Meet Survey - Deep Dive Dubai</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -12,69 +12,25 @@
       padding: 0;
       background: url('welcome-to-deep-dive.jpg') no-repeat center center fixed;
       background-size: cover;
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       min-height: 100vh;
       overflow-x: hidden;
-      overflow-y: auto;
     }
-    .background-logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 220px;
-      opacity: 0.85;
-      z-index: 1;
-    }
-    .container {
-      background: rgba(255, 255, 255, 0.75);
+    .form-container {
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
       border-radius: 20px;
       padding: 40px 30px;
       box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6, 0 0 60px #0096c7;
       max-width: 700px;
-      margin: 100px auto;
+      width: 90%;
       text-align: center;
-      animation: fadeIn 1s ease;
-      z-index: 5;
-      position: relative;
-      opacity: 1;
-      transition: opacity 1s ease, visibility 1s ease;
     }
-    #formContainer {
-      visibility: hidden;
-      opacity: 0;
-    }
-    .visible {
-      visibility: visible;
-      opacity: 1;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    h1, h2 {
+    h2 {
       color: #0077b6;
       margin-bottom: 20px;
-    }
-    p {
-      font-size: 18px;
-      color: #333;
-      margin-bottom: 30px;
-    }
-    button {
-      background: linear-gradient(135deg, #0077b6, #0096c7);
-      color: white;
-      padding: 14px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: linear-gradient(135deg, #005f8a, #0077b6);
-      transform: scale(1.05);
     }
     form label {
       display: block;
@@ -95,13 +51,11 @@
       font-size: 16px;
       transition: 0.3s;
     }
-    input:hover,
-    textarea:hover {
+    input:hover, textarea:hover {
       border-color: #0077b6;
       box-shadow: 0 0 8px #00b4d8;
     }
-    input:focus,
-    textarea:focus {
+    input:focus, textarea:focus {
       border-color: #0077b6;
       outline: none;
     }
@@ -112,8 +66,20 @@
     #surveyForm button {
       margin-top: 25px;
       width: 100%;
+      background: linear-gradient(135deg, #0077b6, #0096c7);
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    /* Popup */
+    #surveyForm button:hover {
+      background: linear-gradient(135deg, #005f8a, #0077b6);
+      transform: scale(1.05);
+    }
     .popup {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -128,13 +94,7 @@
       padding: 30px;
       border-radius: 15px;
       text-align: center;
-      animation: popFade 0.5s ease;
-      max-width: 90%;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-    @keyframes popFade {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
     }
     .popup-content img {
       width: 100px;
@@ -167,19 +127,7 @@
 
 <body>
 
-<img src="59a19db5-ddd_englishlogo.png" class="background-logo" alt="Deep Dive Dubai Logo">
-
-<!-- Welcome Container -->
-<div class="container" id="welcomeContainer">
-  <h1>Welcome, Instructors!</h1>
-  <p>We highly value your experience, insights, and partnership.<br>
-  Your feedback today will help us shape a better, stronger collaboration.<br>
-  Thank you for taking the time to share your thoughts with us!</p>
-  <button onclick="startSurvey()">Start Survey</button>
-</div>
-
-<!-- Survey Form Container -->
-<div class="container" id="formContainer">
+<div class="form-container">
   <h2>Instructor Meet Feedback</h2>
   <form id="surveyForm">
 
@@ -226,16 +174,6 @@
 </div>
 
 <script>
-function startSurvey() {
-  const welcome = document.getElementById('welcomeContainer');
-  const form = document.getElementById('formContainer');
-  welcome.classList.add('hidden');
-  setTimeout(() => {
-    form.classList.add('visible');
-    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 1000);
-}
-
 function closePopup() {
   document.getElementById('thankYouPopup').style.display = 'none';
 }
