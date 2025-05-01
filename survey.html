@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Instructor Meeting Feedback - Deep Dive Dubai</title>
+  <title>Instructor Meet Survey - Deep Dive Dubai</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -24,32 +24,32 @@
       left: 20px;
       width: 150px;
     }
-   .form-container {
-  background: rgba(255, 255, 255, 0.6); /* lighter background */
-  backdrop-filter: blur(10px);
-  padding: 30px 25px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6;
-  max-width: 550px; /* smaller width */
-  width: 90%;
-  margin: 20px 0; /* space from top and bottom */
-  text-align: left;
-}
-
+    .form-container {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6;
+      max-width: 550px;
+      width: 90%;
+      margin: 20px 0;
+      text-align: left;
+    }
     h2 {
       color: #0077b6;
       margin-bottom: 20px;
+      text-align: center;
     }
     form label {
-  text-align: left;
-  font-weight: 600;
-  font-size: 16px;
-  color: #333;
-  margin-top: 15px;
-}
-
+      text-align: left;
+      font-weight: 600;
+      font-size: 16px;
+      color: #333;
+      margin-top: 15px;
+    }
     input[type="text"],
     input[type="email"],
+    select,
     textarea {
       width: 100%;
       padding: 12px;
@@ -59,11 +59,11 @@
       font-size: 16px;
       transition: 0.3s;
     }
-    input:hover, textarea:hover {
+    input:hover, select:hover, textarea:hover {
       border-color: #0077b6;
       box-shadow: 0 0 8px #00b4d8;
     }
-    input:focus, textarea:focus {
+    input:focus, select:focus, textarea:focus {
       border-color: #0077b6;
       outline: none;
     }
@@ -132,29 +132,48 @@
     }
   </style>
 </head>
-
 <body>
-
 <img src="59a19db5-ddd_englishlogo.png" class="logo" alt="Deep Dive Dubai Logo">
-
 <div class="form-container">
-  <h2>Instructor Meet Feedback</h2>
+  <h2>Instructor Meet Survey</h2>
   <form id="surveyForm">
+    <label>Name (optional):</label>
+    <input type="text" name="name">
 
-    <label>Name:</label>
-    <input type="text" name="name" 
-
-    <label>Email:</label>
-    <input type="email" name="email"
+    <label>Email (optional):</label>
+    <input type="email" name="email">
 
     <label>How did you hear about this event?</label>
-    <input type="text" name="hear_about" required>
+    <select name="hear_about" required>
+      <option value="">Select</option>
+      <option>Instagram</option>
+      <option>Facebook</option>
+      <option>LinkedIn</option>
+      <option>Deep Dive Dubai Website</option>
+      <option>WhatsApp</option>
+      <option>Referral</option>
+      <option>Other</option>
+    </select>
 
     <label>On average, how many classes/courses do you teach monthly?</label>
-    <input type="text" name="monthly_classes" required>
+    <select name="monthly_classes" required>
+      <option value="">Select</option>
+      ${[...Array(50).keys()].map(i => `<option>${i+1}</option>`).join('')}
+      <option>More than 50</option>
+    </select>
 
-    <label>Please list your preferred certification agencies in order of activity:</label>
-    <input type="text" name="certification_agencies" required>
+    <label>Preferred certification agency (most active):</label>
+    <select name="certification_agencies" required>
+      <option value="">Select</option>
+      <option>PADI</option>
+      <option>SSI</option>
+      <option>NAUI</option>
+      <option>CMAS</option>
+      <option>GUE</option>
+      <option>SDI/TDI</option>
+      <option>RAID</option>
+      <option>Other</option>
+    </select>
 
     <label>Where do you typically conduct your classes/courses?</label>
     <input type="text" name="conduct_location" required>
@@ -168,12 +187,9 @@
     <label>Additional thoughts, opinions, or suggestions:</label>
     <textarea name="additional_feedback"></textarea>
 
-    <button type="submit" id="submitBtn">Submit Feedback</button>
-
+    <button type="submit" id="submitBtn">Submit</button>
   </form>
 </div>
-
-<!-- Thank You Popup -->
 <div id="thankYouPopup" class="popup">
   <div class="popup-content">
     <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Thank You">
@@ -182,7 +198,6 @@
     <button onclick="closePopup()">OK</button>
   </div>
 </div>
-
 <script>
 function closePopup() {
   document.getElementById('thankYouPopup').style.display = 'none';
@@ -202,23 +217,21 @@ document.addEventListener('DOMContentLoaded', function() {
       const formData = new FormData(surveyForm);
       const formObject = {};
       formData.forEach((value, key) => formObject[key] = value);
-
       const payload = {
         timestamp: new Date().toISOString(),
         ...formObject
       };
 
       await fetch('https://dvnxbpmafcnopxusphhk.supabase.co/rest/v1/survey_responses', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
-    'Prefer': 'return=minimal'
-  },
-  body: JSON.stringify(payload)
-});
-
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
 
       popup.style.display = 'flex';
       surveyForm.reset();
@@ -227,11 +240,10 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Error submitting the form.');
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit Feedback';
+      submitBtn.textContent = 'Submit';
     }
   });
 });
 </script>
-
 </body>
 </html>
