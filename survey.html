@@ -144,7 +144,7 @@
     <input type="email" name="email">
 
     <label>How did you hear about this event?</label>
-    <select name="hear_about" required>
+    <select name="hear_about" id="hear_about" required>
       <option value="">Select</option>
       <option>Instagram</option>
       <option>Facebook</option>
@@ -154,16 +154,21 @@
       <option>Referral</option>
       <option>Other</option>
     </select>
+    <input type="text" id="hear_about_other" name="hear_about_other" placeholder="Please specify" style="display:none;">
 
     <label>On average, how many classes/courses do you teach monthly?</label>
     <select name="monthly_classes" required>
       <option value="">Select</option>
-      ${[...Array(50).keys()].map(i => `<option>${i+1}</option>`).join('')}
+      <script>
+        for (let i = 1; i <= 50; i++) {
+          document.write(`<option value="${i}">${i}</option>`);
+        }
+      </script>
       <option>More than 50</option>
     </select>
 
     <label>Preferred certification agency (most active):</label>
-    <select name="certification_agencies" required>
+    <select name="certification_agencies" id="certification_agencies" required>
       <option value="">Select</option>
       <option>PADI</option>
       <option>SSI</option>
@@ -174,6 +179,7 @@
       <option>RAID</option>
       <option>Other</option>
     </select>
+    <input type="text" id="certification_agencies_other" name="certification_agencies_other" placeholder="Please specify" style="display:none;">
 
     <label>Where do you typically conduct your classes/courses?</label>
     <input type="text" name="conduct_location" required>
@@ -202,6 +208,14 @@
 function closePopup() {
   document.getElementById('thankYouPopup').style.display = 'none';
 }
+
+document.getElementById('hear_about').addEventListener('change', function() {
+  document.getElementById('hear_about_other').style.display = this.value === 'Other' ? 'block' : 'none';
+});
+
+document.getElementById('certification_agencies').addEventListener('change', function() {
+  document.getElementById('certification_agencies_other').style.display = this.value === 'Other' ? 'block' : 'none';
+});
 
 document.addEventListener('DOMContentLoaded', function() {
   const surveyForm = document.getElementById('surveyForm');
