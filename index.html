@@ -6,6 +6,10 @@
   <title>Welcome - Deep Dive Dubai</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
@@ -17,45 +21,100 @@
       justify-content: center;
       overflow: hidden;
     }
+
     .logo {
       position: absolute;
       top: 20px;
       left: 20px;
-      width: 150px;
+      width: 120px;
     }
+
     .welcome-container {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(20px);
-      padding: 40px 30px;
+      padding: 30px 20px;
       border-radius: 20px;
       box-shadow: 0 0 20px #00b4d8, 0 0 40px #0077b6;
       text-align: center;
       max-width: 600px;
       width: 90%;
     }
+
     h1 {
       color: #0077b6;
+      font-size: 2rem;
       margin-bottom: 20px;
     }
+
     p {
       color: #333;
-      font-size: 18px;
+      font-size: 1rem;
       margin-bottom: 30px;
+      line-height: 1.5;
     }
+
     button {
       background: linear-gradient(135deg, #0077b6, #0096c7);
       color: white;
       padding: 14px 30px;
-      font-size: 18px;
+      font-size: 1rem;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
       transition: 0.3s;
     }
+
     button:hover {
       background: linear-gradient(135deg, #005f8a, #0077b6);
       transform: scale(1.05);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .logo {
+        width: 100px;
+        top: 15px;
+        left: 15px;
+      }
+
+      .welcome-container {
+        padding: 25px 15px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      p {
+        font-size: 0.95rem;
+      }
+
+      button {
+        padding: 12px 25px;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        width: 80px;
+        top: 10px;
+        left: 10px;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
