@@ -159,7 +159,10 @@
     <label>On average, how many classes/courses do you teach monthly?</label>
     <select name="monthly_classes" required>
       <option value="">Select</option>
-      ${[...Array(50)].map((_, i) => `<option>${i+1}</option>`).join('')}
+      <option>1–5</option>
+      <option>6–10</option>
+      <option>11–20</option>
+      <option>21–40</option>
       <option>More than 50</option>
     </select>
 
@@ -205,7 +208,6 @@ function closePopup() {
   document.getElementById('thankYouPopup').style.display = 'none';
 }
 
-// Show extra field for 'Other'
 document.getElementById('hear_about').addEventListener('change', function() {
   document.getElementById('hear_about_other').style.display = this.value === 'Other' ? 'block' : 'none';
 });
@@ -238,8 +240,8 @@ document.addEventListener('DOMContentLoaded', function() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...REDACTED...',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...REDACTED...',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2bnhicG1hZmNub3B4dXNwaGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4MzA1NjQsImV4cCI6MjA2MTQwNjU2NH0.E61h1y6qRMIOz_0oix1xU5W6hBsUuTHkO2dSCFa7K_Q',
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify(payload)
